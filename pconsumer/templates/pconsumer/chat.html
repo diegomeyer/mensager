@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<title></title>
+</head>
+<body>
+
+<script>
+//Note that the path doesn't matter right now; any WebSocket
+//connection gets bumped over to WebSocket consumers
+socket = new WebSocket("ws://" + window.location.host + "/chat/");
+var counter = 2;
+socket.onmessage = function(e) {
+     
+	 var clone = $("#clone1").clone();
+	 clone.attr("id","clone"+counter);
+	 clone.find("#titulo1").attr("id","titulo"+counter);
+	 clone.find("#titulo"+counter).text(counter + "@"+e.data);
+	 clone.appendTo('#teste');
+	 counter++;
+}
+
+socket.onopen = function() {
+ socket.send("{{ request.user }}");
+}
+//Call onopen directly if socket is already open
+if (socket.readyState == WebSocket.OPEN) socket.onopen();
+
+function clone(){
+    var tx = document.getElementById('INPUT01').value;
+	socket.send("{{ request.user }}: " +   tx );
+}
+
+
+</script>
+<input type="text" id="INPUT01" width="100%" />
+<input type="button" value="Clonar" class=" btn btn-info btn-sm" onClick="clone()">
+<div id="teste">
+<div id="clone1">
+	<h1 id="titulo1"> vamo clonar</h1>
+	<h2> !!!!! </h2>
+
+</div>
+</div>
+</body>
+</html>
