@@ -10,18 +10,35 @@ def http_consumer(message):
     # Encode that response into message format (ASGI)
     for chunk in AsgiHandler.encode_response(response):
         message.reply_channel.send(chunk)
-        
+
 @channel_session_user_from_http
 def ws_add(message):
+    print('group')
     # Accept connection
     message.reply_channel.send({"accept": True})
     # Add them to the right group
-    Group("chat").add(message.reply_channel)
+    Group("chat", channel_layer=message.channel_layer).add(message.reply_channel)
 
 
 @channel_session_user
 def ws_message(message):
-    Group("chat").send({
+    print('menssagem')
+    Group("chat", channel_layer=message.channel_layer).send({
+        "text": message['text'],
+    })
+
+@channel_session_user_from_http
+def ws_add_id(message):
+    print('group1')
+    # Accept connection
+    message.reply_channel.send({"accept": True})
+    # Add them to the right group
+    Group("chat1", channel_layer=message.channel_layer).add(message.reply_channel)
+
+@channel_session_user
+def ws_message_id(message):
+    print('menssagem1')
+    Group("chat1", channel_layer=message.channel_layer).send({
         "text": message['text'],
     })
 
@@ -29,6 +46,10 @@ def ws_message(message):
 @channel_session_user
 def ws_disconnect(message):
     Group("chat-%s" % message.user.username[0]).discard(message.reply_channel)
+
+@channel_session_user
+def ws_disconnect_id(message):
+    Group("chat1-%s" % message.user.username[0]).discard(message.reply_channel)
     
     
 @channel_session
