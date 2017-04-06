@@ -122,7 +122,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
-        "ROUTING": "pconsumer.routing.channel_routing",
+        "ROUTING": "Portal.routing.channel_routing",
     },
 }
 

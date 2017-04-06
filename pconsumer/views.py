@@ -8,6 +8,9 @@ from django.contrib.auth import authenticate
 def chat(request):
     return render(request, 'pconsumer/chat.html')
 
+def chat1(request):
+    return render(request, 'pconsumer/chat1.html')
+
 
 # Create your views here.
 def home(request):

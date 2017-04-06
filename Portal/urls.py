@@ -20,7 +20,8 @@ from pconsumer import views
 urlpatterns = [
     
     url(r'^admin/', admin.site.urls),
-    url(r'^chat_teste/$', views.chat),
+    url(r'^chat/$', views.chat),
+    url(r'^chat1/$', views.chat1),
     url(r'^$', views.home),
    
 ]
