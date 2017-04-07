@@ -1,39 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<title></title>
-</head>
-<body>
+{% extends 'log/base.html' %}
+
+{% block content %}
 
 <script>
 
 //Note that the path doesn't matter right now; any WebSocket
 //connection gets bumped over to WebSocket consumers
+{% if request.session.session_key %}
 var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 var ws_path = ws_scheme + '://' + window.location.host + "/chat/";
 console.log("Connecting to " + ws_path);
 var socket = new WebSocket(ws_path);
 var counter = 2;
 console.log(socket);
-socket.onmessage = function(e) {
-	 var clone = $("#clone1").clone();
-	 clone.attr("id","clone"+counter);
-	 clone.find("#titulo1").attr("id","titulo"+counter);
-	 clone.find("#titulo"+counter).text(counter + "@"+e.data);
-	 clone.appendTo('#teste');
-	 counter++;
-}
+
+socket.onmessage = function(message) {
+    var data = JSON.parse(message.data);
+    var chat = $("#chat")
+    var ele = $('<tr></tr>')
+
+    ele.append(
+        $("<td></td>").text(data.timestamp)
+    )
+    ele.append(
+        $("<td></td>").text(data.handle)
+    )
+    ele.append(
+        $("<td></td>").text(data.message)
+    )
+
+    chat.append(ele)
+};
+
+
+//socket.onmessage = function(e) {
+//	 var clone = $("#clone1").clone();
+//	 clone.attr("id","clone"+counter);
+//	 clone.find("#titulo1").attr("id","titulo"+counter);
+//	 clone.find("#titulo"+counter).text(counter + "@"+e.data);
+//	 clone.appendTo('#teste');
+//	 counter++;
+//}
 
 socket.onopen = function() {
  socket.send("{{ request.user }}");
 }
+
+if (socket.readyState == WebSocket.OPEN) {
+    socket.onopen();
+  }
+{% endif %}
 //Call onopen directly if socket is already open
 //if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
 function clone(){
-    var tx = document.getElementById('INPUT01').value;
-	socket.send("{{ request.user }}: " +   tx );
+
+     var message = {
+         handle: $('#handle').val(),
+         message: $('#message').val(),
+     }
+     chatsock.send(JSON.stringify(message));
+     $("#message").val('').focus();
+     return false;
+	
+	
+	
+    //var tx = document.getElementById('INPUT01').value;
+	//socket.send("{{ request.user }}: " +   tx );
 }
 
 </script>
@@ -46,5 +79,5 @@ function clone(){
 
 </div>
 </div>
-</body>
-</html>
+
+{% endblock %}
