@@ -12,39 +12,58 @@
 //connection gets bumped over to WebSocket consumers
 var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 var ws_path = ws_scheme + '://' + window.location.host + "/chat/";
-console.log("Connecting to " + ws_path);
 var socket = new WebSocket(ws_path);
 var counter = 2;
-console.log(socket);
 socket.onmessage = function(e) {
-	 var clone = $("#clone1").clone();
-	 clone.attr("id","clone"+counter);
-	 clone.find("#titulo1").attr("id","titulo"+counter);
-	 clone.find("#titulo"+counter).text(counter + "@"+e.data);
-	 clone.appendTo('#teste');
-	 counter++;
+        var data = JSON.parse(e.data);
+        var chat = $("#chat")
+        var ele = $('<tr></tr>')
+        ele.append(
+            $("<td></td>").text(data.user)
+        )
+        ele.append(
+            $("<td></td>").text(data.message)
+        )
+        chat.append(ele)
 }
 
 socket.onopen = function() {
- socket.send("{{ request.user }}");
+    var tx = {
+    		  message: "Você se conectou a sala " + "{{ room }}",
+    		  room: "{{ room }}",
+    		  user: "{{ request.user }}:"
+    }
+	//socket.send(JSON.stringify(tx));
 }
 //Call onopen directly if socket is already open
 //if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
 function clone(){
-    var tx = document.getElementById('INPUT01').value;
-	socket.send("{{ request.user }}: " +   tx );
+    var tx = {
+    		  message: document.getElementById('INPUT01').value,
+    		  user: "{{ request.user }}: ",
+    		  room: "{{ room }}",
+    }
+	socket.send(JSON.stringify(tx));
 }
 
 </script>
 <input type="text" id="INPUT01" width="100%" />
 <input type="button" value="Clonar" class=" btn btn-info btn-sm" onClick="clone()">
 <div id="teste">
-<div id="clone1">
-	<h1 id="titulo1"> Chat </h1>
-	<h2> !!!!! </h2>
-
+	<h1 id="titulo2"> Bem - Vindo a sala {{ room }} </h1>
 </div>
+<div id="clone1">
+	<table id="chat">
+      <tbody>
+        {% for message in messages %}
+          <tr>
+            <td>{{ message.handle }}</td>
+            <td>{{ message.message }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+	</table>
 </div>
 </body>
 </html>

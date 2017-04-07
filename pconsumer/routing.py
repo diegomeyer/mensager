@@ -1,5 +1,5 @@
 from channels.routing import route
-from pconsumer.consumers import ws_connect, ws_message, ws_disconnect, ws_add, ws_message_id, ws_add_id, ws_disconnect_id
+from pconsumer.consumers import ws_message, ws_disconnect, ws_add, ws_message_id, ws_add_id, ws_disconnect_id
 
 channel_one = [
     route("websocket.connect", ws_add),

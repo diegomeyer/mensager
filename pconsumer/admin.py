@@ -1,6 +1,12 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib import admin
+from .models import Room, Message
 
-# Register your models here.
+@admin.register(Room)
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ["name", "label"]
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['room', 'handle', 'message', 'timestamp']
+    fields = list_display
