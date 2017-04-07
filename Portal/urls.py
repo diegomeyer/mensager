@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_view
 from log.forms import LoginForm
 
 urlpatterns = [
-#     url(r'^$', log_views.home, name='home'),
+    url(r'^$', log_views.home, name='home'),
     url(r'^login/$', auth_view.login, {'template_name': 'log/login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', auth_view.logout, {'next_page': '/login'}),  
     
