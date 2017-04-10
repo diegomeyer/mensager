@@ -1,8 +1,8 @@
 {% extends 'log/base.html' %}
 
 {% block content %}
-<script>
 
+<script>
 //Note that the path doesn't matter right now; any WebSocket
 //connection gets bumped over to WebSocket consumers
 var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
@@ -40,8 +40,8 @@ function clone(){
     }
 	socket.send(JSON.stringify(tx));
 }
-
 </script>
+
 <input type="text" id="INPUT01" width="100%" />
 <input type="button" value="Clonar" class=" btn btn-info btn-sm" onClick="clone()">
 <div id="teste">

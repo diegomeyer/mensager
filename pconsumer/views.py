@@ -2,12 +2,8 @@
 from __future__ import unicode_literals
 from django.db import transaction
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate
 from .models import Room
-<<<<<<< HEAD
-=======
 from numpy import random
->>>>>>> b537af9f20abdbe302c6a96c8a5246d4a30ed4a3
 
 
 # Create your views here.
@@ -24,12 +20,11 @@ def chat1(request):
 def about(request):
     return render(request, "pconsumer/about.html")
 
-<<<<<<< HEAD
 # Create your views here.
 def home(request):
     #user = authenticate(username='member', password='admin123')
     return render(request, 'pconsumer/home.html', {})
-=======
+
 def new_room(request):
     """
     Randomly create a new room, and redirect to it.
@@ -60,4 +55,3 @@ def chat_room(request, label):
         'room': room,
         'messages': messages,
     })
->>>>>>> b537af9f20abdbe302c6a96c8a5246d4a30ed4a3
