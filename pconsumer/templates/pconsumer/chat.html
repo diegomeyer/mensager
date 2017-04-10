@@ -22,16 +22,6 @@ socket.onmessage = function(e) {
         chat.append(ele)
 }
 
-socket.onopen = function() {
-    var tx = {
-    		  message: "Você se conectou a sala " + "{{ room }}",
-    		  room: "{{ room }}",
-    		  user: "{{ request.user }}:"
-    }
-	//socket.send(JSON.stringify(tx));
-}
-//Call onopen directly if socket is already open
-//if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
 function clone(){
     var tx = {

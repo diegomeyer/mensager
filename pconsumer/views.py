@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import render, redirect
 from .models import Room
@@ -7,11 +8,13 @@ from numpy import random
 
 
 # Create your views here.
+@login_required
 def chat(request):
     room = Room.objects.get(label=0)
     messages = {}#room.messages.order_by('-timestamp')[:50]
     return render(request, 'pconsumer/chat.html', {'room': room.label, 'messages': messages})
 
+@login_required
 def chat1(request):
     room = Room.objects.get(label=1)
     messages = {}#room.messages.order_by('-timestamp')[:50]
