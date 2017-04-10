@@ -3,23 +3,29 @@
 {% block content %}
 
 <script>
-
 //Note that the path doesn't matter right now; any WebSocket
 //connection gets bumped over to WebSocket consumers
 var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 var ws_path = ws_scheme + '://' + window.location.host + "/chat/";
 var socket = new WebSocket(ws_path);
+
 socket.onmessage = function(e) {
-        var data = JSON.parse(e.data);
-        var chat = $("#chat")
-        var ele = $('<tr></tr>')
-        ele.append(
-            $("<td></td>").text(data.handle)
-        )
-        ele.append(
-            $("<td></td>").text(data.message)
-        )
-        chat.append(ele)
+    var data = JSON.parse(e.data);
+    if (data.error){
+        alert(data.error);
+        socket.close();
+        return;
+    }
+
+    var chat = $("#chat")
+    var ele = $('<tr></tr>')
+    ele.append(
+        $("<td></td>").text(data.handle)
+    )
+    ele.append(
+        $("<td></td>").text(data.message)
+    )
+    chat.append(ele);
 }
 
 
@@ -31,8 +37,8 @@ function clone(){
     }
 	socket.send(JSON.stringify(tx));
 }
-
 </script>
+
 <input type="text" id="INPUT01" width="100%" />
 <input type="button" value="Clonar" class=" btn btn-info btn-sm" onClick="clone()">
 <div id="teste">
