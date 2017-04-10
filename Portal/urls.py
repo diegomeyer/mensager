@@ -15,13 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+
 from pconsumer import views
+from log import views as log_views
+
+from django.contrib.auth import views as auth_view
+from log.forms import LoginForm
 
 urlpatterns = [
+    url(r'^$', log_views.home, name='home'),
+    url(r'^login/$', auth_view.login, {'template_name': 'log/login.html', 'authentication_form': LoginForm}, name='login'),
+    url(r'^logout/$', auth_view.logout, {'next_page': '/login'}),  
     
     url(r'^admin/', admin.site.urls),
     url(r'^chat/$', views.chat),
     url(r'^chat1/$', views.chat1),
-    url(r'^$', views.home),
-   
 ]

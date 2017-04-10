@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'log',
     'pconsumer',
 ]
 
@@ -125,9 +126,13 @@ CHANNEL_LAYERS = {
         "ROUTING": "Portal.routing.channel_routing",
     },
 }
-
+LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+STATICFILES_DIRS = (
+        os.path.join(os.path.dirname(BASE_DIR), "log", "static"),
+    )
+
 
 STATIC_URL = '/static/'

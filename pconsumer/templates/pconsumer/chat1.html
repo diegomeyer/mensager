@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<title></title>
-</head>
-<body>
+{% extends 'log/base.html' %}
 
+{% block content %}
 <script>
 
 //Note that the path doesn't matter right now; any WebSocket
@@ -64,5 +59,5 @@ function clone(){
       </tbody>
 	</table>
 </div>
-</body>
-</html>
+
+{% endblock %}
