@@ -48,9 +48,9 @@ def ws_message_id(message):
 # Connected to websocket.disconnect
 @channel_session_user
 def ws_disconnect(message):
-    Group("chat-%s" % message.user.username[0]).discard(message.reply_channel)
+    Group("chat").discard(message.reply_channel)
 
 
 @channel_session_user
 def ws_disconnect_id(message):
-    Group("chat1-%s" % message.user.username[0]).discard(message.reply_channel)
+    Group("chat1").discard(message.reply_channel)
