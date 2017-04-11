@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+SESSION_COOKIE_AGE = 3 * 60 * 60  #tres horas (em segundos)
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,11 +81,14 @@ WSGI_APPLICATION = 'Portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'lx-vm001-scl.lef.intra',
+        'NAME': 'pnl_dev',
+        'USER': 'pnl',
+        'PASSWORD': 'luz*2017',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

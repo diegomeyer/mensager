@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
+
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -20,10 +23,18 @@ class Message(models.Model):
 
 	def __unicode__(self):
 		return '[{timestamp}] {handle}: {message}'.format(**self.as_dict())
-    
+
 	@property
 	def formatted_timestamp(self):
 		return self.timestamp.strftime('%b %-d %-I:%M %p')
-    
+
 	def as_dict(self):
 		return {'handle': self.handle, 'message': self.message, 'timestamp': self.formatted_timestamp}
+
+class Connection(models.Model):
+	room = models.ForeignKey(Room)
+	user = models.ForeignKey(User)
+	status = models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = ('room', 'user', 'status')
