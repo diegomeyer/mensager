@@ -1,7 +1,7 @@
 python==3.5
-Django==1.10.6
-channels==1.1.2
 asgi_redis==1.2.1
+channels==1.1.2
 daphne==1.2.0
 psycopg2==2.6.2
 selenium==3.0.2
+Django==1.10.6
